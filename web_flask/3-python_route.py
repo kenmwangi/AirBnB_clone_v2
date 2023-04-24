@@ -1,35 +1,39 @@
 #!/usr/bin/python3
-""" A script that starts a Flask web application
-    Listen on 0.0.0.0, port 5000
-    Routes: 
-            /: display “Hello HBNB!”
-            /hbnb: display “HBNB”
-            /c/<text>
-"""
-
+""" 3. Add third view func that redirects and has default val for variable """
 
 from flask import Flask
 
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', strict_slashes=False)
+@app.route('/')
 def hello_world():
-    """Return a string"""
+    """ Returns some text. """
     return 'Hello HBNB!'
 
-@app.route('/hbnb', strict_slashes=False)
+
+@app.route('/hbnb')
 def hello():
-    """Return stirng"""
+    """ Return other text. """
     return 'HBNB'
 
-@app.route('/c/<text>', strict_slashes=False)
+
+@app.route('/c/<text>')
 def c_text(text):
-    """Return a string with variable"""
+    """ replace text with variable. """
     text = text.replace('_', ' ')
     return 'C {}'.format(text)
 
 
+@app.route('/python/')
+@app.route('/python/<text>')
+def python_text(text='is cool'):
+    """ replace more text with another variable. """
+    text = text.replace('_', ' ')
+    return 'Python {}'.format(text)
+
+
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
